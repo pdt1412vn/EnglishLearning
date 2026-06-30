@@ -1,0 +1,17 @@
+<template>
+
+<footer class="bg-dark text-white py-4 mt-5">
+
+<div class="container text-center">
+
+<p>
+
+© 2026 English Learning
+
+</p>
+
+</div>
+
+</footer>
+
+</template>
