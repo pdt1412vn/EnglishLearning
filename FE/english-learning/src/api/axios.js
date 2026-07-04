@@ -1,13 +1,18 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import axios from 'axios'
 
-import router from './router'
-import { createPinia } from 'pinia'
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
-createApp(App)
-.use(router)
-.use(createPinia())
-.mount('#app')
+export default api

@@ -2,8 +2,6 @@
 
 <div>
 
-<Navbar/>
-
 <div class="container mt-5">
 
 <div class="row">
@@ -68,7 +66,6 @@ import {ref,onMounted} from "vue";
 
 import {useRoute} from "vue-router";
 
-import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 
 import {getCourse} from "../api/course";

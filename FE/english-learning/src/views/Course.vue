@@ -2,8 +2,6 @@
 
   <div>
 
-    <Navbar/>
-
     <div class="container mt-5">
 
       <h2 class="fw-bold mb-4">
@@ -36,7 +34,6 @@
 
 import {ref,onMounted} from "vue";
 
-import Navbar from "../components/Navbar.vue";
 import Footer from "../components/Footer.vue";
 import CourseCard from "../components/CourseCard.vue";
 
