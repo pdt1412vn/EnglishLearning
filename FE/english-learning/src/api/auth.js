@@ -8,6 +8,6 @@ export function login(data){
 
 export function register(data){
 
-    return api.post("/users/register",data);
+    return api.post("/auth/register",data);
 
 }

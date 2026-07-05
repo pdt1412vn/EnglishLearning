@@ -4,8 +4,10 @@ import com.example.englishlearning.entity.User;
 import com.example.englishlearning.reposistory.UserRepository;
 import com.example.englishlearning.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -13,6 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getAll() {
@@ -27,6 +30,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        if (user.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+        if (user.getStatus() == null) {
+            user.setStatus(1);
+        }
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(LocalDateTime.now());
+        }
         return userRepository.save(user);
     }
 
@@ -36,11 +51,17 @@ public class UserServiceImpl implements UserService {
 
         oldUser.setFullName(user.getFullName());
         oldUser.setEmail(user.getEmail());
-        oldUser.setPassword(user.getPassword());
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            if (!user.getPassword().startsWith("$2a$")) {
+                oldUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            } else {
+                oldUser.setPassword(user.getPassword());
+            }
+        }
         oldUser.setAvatar(user.getAvatar());
         oldUser.setRole(user.getRole());
         oldUser.setStatus(user.getStatus());
-        oldUser.setUpdatedAt(user.getUpdatedAt());
+        oldUser.setUpdatedAt(LocalDateTime.now());
 
         return userRepository.save(oldUser);
     }

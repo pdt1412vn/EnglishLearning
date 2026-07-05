@@ -1,33 +1,9 @@
-USE EnglishLearning
-GO
+
 INSERT INTO users(full_name,email,password,role,status)
 VALUES
-(N'Administrator','admin@gmail.com','123456','ADMIN',1),
-(N'Nguyễn Văn A','user@gmail.com','123456','USER',1),
-(N'Trần Thị B','user2@gmail.com','123456','USER',1);
-INSERT INTO courses(title,description,image,level,status)
-VALUES
-    (
-        N'English Basic',
-        N'Khóa học tiếng Anh cơ bản cho người mới bắt đầu.',
-        'https://images.unsplash.com/photo-1503676260728-1c00da094a0b',
-        'BEGINNER',
-        1
-    ),
-    (
-        N'English Communication',
-        N'Giao tiếp tiếng Anh hằng ngày.',
-        'https://images.unsplash.com/photo-1513258496099-48168024aec0',
-        'ELEMENTARY',
-        1
-    ),
-    (
-        N'English Grammar',
-        N'Học ngữ pháp tiếng Anh cơ bản.',
-        'https://images.unsplash.com/photo-1455390582262-044cdead277a',
-        'INTERMEDIATE',
-        1
-    );
+(N'Administrator','admin@gmail.com','$2a$10$G0Nbia8MyeQqKuo1XuL1eucqwifN0ISvZCoJJwD/iASJ4caXRSySi','ADMIN',1),
+(N'Nguyễn Văn A','user@gmail.com','$2a$10$G0Nbia8MyeQqKuo1XuL1eucqwifN0ISvZCoJJwD/iASJ4caXRSySi','USER',1),
+(N'Trần Thị B','user2@gmail.com','$2a$10$G0Nbia8MyeQqKuo1XuL1eucqwifN0ISvZCoJJwD/iASJ4caXRSySi','USER',1);
 INSERT INTO courses(title,description,image,level,status)
 VALUES
     (
@@ -152,19 +128,6 @@ VALUES
     (2,3,80,0,NULL),
 
     (3,1,70,1,GETDATE());
-INSERT INTO favorite_vocabularies
-(
-    user_id,
-    vocabulary_id
-)
-VALUES
-
-    (2,1),
-    (2,2),
-    (2,4),
-
-    (3,1),
-    (3,5);
 INSERT INTO favorite_vocabularies
 (
     user_id,

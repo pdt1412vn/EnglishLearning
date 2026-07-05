@@ -1,37 +1,49 @@
 package com.example.englishlearning.Security_JWT;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "your_secret_key_very_long_and_secure_string"; // Nên để trong file application.properties
-    private final long EXPIRATION_TIME = 86400000; // 24 giờ
+    private static final String SECRET =
+            "your_secret_key_very_long_and_secure_string_123456789";
 
-    // Tạo token
+    private final SecretKey key =
+            Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
+
+    private final long EXPIRATION = 86400000;
+
     public String generateToken(String email) {
+
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .subject(email)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .signWith(key)
                 .compact();
     }
 
-    // Kiểm tra token có hợp lệ không
-    public boolean validateToken(String token, String email) {
-        String username = extractUsername(token);
-        return (username.equals(email) && !isTokenExpired(token));
-    }
-
     public String extractUsername(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+
+        Claims claims = Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        return claims.getSubject();
     }
 
-    private boolean isTokenExpired(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getExpiration().before(new Date());
+    public boolean validateToken(String token,String email){
+
+        return extractUsername(token).equals(email);
+
     }
 }
