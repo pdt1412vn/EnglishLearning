@@ -176,3 +176,63 @@ VALUES
 
     (2,1,'CERT001'),
     (3,2,'CERT002');
+-- 1. Thêm thêm Khóa học
+INSERT INTO courses(title, description, image, level, status)
+VALUES
+    (N'English for Business', N'Tiếng Anh chuyên ngành kinh tế, văn phòng.', 'https://images.unsplash.com/photo-1552664730-d307ca884978', 'INTERMEDIATE', 1);
+
+-- 2. Thêm bài học cho khóa học mới (ID 4)
+INSERT INTO lessons(course_id, title, description, lesson_order, duration, status)
+VALUES
+    (4, N'Meeting', N'Cách tổ chức và tham gia cuộc họp', 1, 40, 1),
+    (4, N'Negotiation', N'Kỹ năng đàm phán', 2, 45, 1);
+
+-- 3. Thêm Từ vựng phong phú hơn
+INSERT INTO vocabularies (lesson_id, english_word, vietnamese_meaning, pronunciation, example_sentence)
+VALUES
+    (4, 'Agenda', N'Chương trình nghị sự', '/əˈdʒendə/', 'Please check the agenda before the meeting.'),
+    (4, 'Deadline', N'Hạn chót', '/ˈdedlaɪn/', 'We need to meet the deadline.'),
+    (5, 'Contract', N'Hợp đồng', '/ˈkɒntrækt/', 'They signed a new contract.'),
+    (5, 'Discount', N'Chiết khấu', '/ˈdɪskaʊnt/', 'We offer a 10% discount.');
+
+-- 4. Thêm Quizzes cho các bài mới
+INSERT INTO quizzes (lesson_id, question, quiz_type, explanation)
+VALUES
+    (4, N'Agenda có nghĩa là gì?', 'MULTIPLE_CHOICE', N'Agenda là chương trình nghị sự.'),
+    (5, N'Deadline có nghĩa là gì?', 'MULTIPLE_CHOICE', N'Deadline là hạn chót.');
+
+INSERT INTO quiz_answers (quiz_id, answer_content, is_correct)
+VALUES
+    (4, N'Chương trình nghị sự', 1),
+    (4, N'Hợp đồng', 0),
+    (4, N'Cuộc họp', 0),
+    (4, N'Nhân viên', 0),
+    (5, N'Hạn chót', 1),
+    (5, N'Chiết khấu', 0),
+    (5, N'Tiền lương', 0),
+    (5, N'Sản phẩm', 0);
+
+-- 5. Thêm dữ liệu Tiến độ học tập (Progress) cho người dùng 3
+INSERT INTO user_progress (user_id, lesson_id, score, completed, completed_at)
+VALUES
+    (3, 2, 85, 1, GETDATE()),
+    (3, 3, 95, 1, GETDATE()),
+    (3, 4, 0, 0, NULL);
+
+-- 6. Thêm Lịch sử học tập (History)
+INSERT INTO learning_history (user_id, lesson_id, start_time, end_time, learning_time)
+VALUES
+    (3, 1, DATEADD(DAY, -1, GETDATE()), DATEADD(MINUTE, 30, DATEADD(DAY, -1, GETDATE())), 30),
+    (3, 4, GETDATE(), DATEADD(MINUTE, 40, GETDATE()), 40);
+
+-- 7. Thêm Chứng chỉ
+INSERT INTO certificates (user_id, course_id, certificate_code)
+VALUES
+    (2, 2, 'CERT-U2-C2'),
+    (2, 3, 'CERT-U2-C3'),
+    (3, 3, 'CERT-U3-C3');
+
+-- 8. Thêm Từ vựng yêu thích cho người dùng 3
+INSERT INTO favorite_vocabularies (user_id, vocabulary_id)
+VALUES
+    (3, 2), (3, 3), (3, 8), (3, 9);
